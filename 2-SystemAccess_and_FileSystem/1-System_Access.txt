@@ -1,0 +1,29 @@
+There are two ways you can access a linux system
+
+1. Console
+    This is when there is  direct access to the operating system when it is
+    connected through VGA, HDMI, DVI
+
+
+2. Remote
+    This is when you connect to your operating system remotely over a network
+    For example RDP allows you to connect to another window desktop over the internet
+    while for macOS sharing.
+    To connect to linux from a window machine you can use putty, ssh can also
+    connect using ssh
+
+
+[ec2-user@ip-172-31-8-239 ~]$
+user@hostname ~(home) $/#  $ for normal user and # for root user
+[root@ip-172-31-8-239 ~]#
+
+To know the hostname:
+    hostname
+
+To know the user:
+    whoami
+
+
+
+
+I
