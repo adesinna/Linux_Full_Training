@@ -23,7 +23,7 @@ To know the hostname:
 To know the user:
     whoami
 
+To get details:
+    hostnamectl
 
 
-
-I
