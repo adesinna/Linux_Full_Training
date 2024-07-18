@@ -301,7 +301,7 @@ Redirection:
 
         if you do not want to see the output, you can send them to /dev/null, which is like black hole
 
-
+        cat < hello.txt # it displays hello.txt
         cat /dev/null > file_name # this will clear the file
 
     Handling Error:
