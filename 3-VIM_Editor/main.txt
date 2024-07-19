@@ -51,6 +51,10 @@ You can change individual char with r
 
 :/word
 
+:g/^$/d # this will remove all empty lines in the file
+
+
+
 
 
 

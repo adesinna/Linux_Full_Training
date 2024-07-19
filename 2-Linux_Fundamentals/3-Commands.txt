@@ -357,6 +357,7 @@ Redirection:
 
                 useradd name_of_user # fedora linux RPM
 
+                useradd -g groupname
 
 
         Creating of groups:
@@ -366,6 +367,7 @@ Redirection:
 
             edit /etc/group and add users to the last column # do not forget the commas
 
+            usermod -G username groupname # you can add users to that group
 
         Creating user password:
             passwd username
@@ -390,6 +392,8 @@ Redirection:
 
         Group Users:
             groupdel username
+
+            chgrp -R groupname  username # it will change the group
 
 
 File Permission:
