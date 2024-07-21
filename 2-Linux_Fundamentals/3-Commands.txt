@@ -619,4 +619,4 @@ To allow directory to inherit permission
     setfacl -dm u:user:rwx path_to_directory
 
 
-
+nc -v ip port # this is to know whether the port is listen
