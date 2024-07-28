@@ -1,0 +1,51 @@
+What is an Operating System:
+    This is what allows you to interact with your computer, it acts like a middleman
+    between the hardware and the computer services.
+
+Types of OS
+    - Desktop OS like Microsoft, macOS, Linux such as Ubuntu
+    - Server OS like Windows Server, Linux distribution like CentOS
+    - Mobile OS like Android, iOS, Windows Mobile
+    - Embedded OS like automobiles, TVs, Home appliances
+    - Real-Time OS like medical equipments, car ECUs, aerospace
+
+
+
+What is Linux:
+    It is a free and open source operating system
+
+
+Linux Distros:
+
+    Ubuntu by Debian Company
+
+    Fedora by Redhat Company
+
+    Debian by Debian Company
+
+    RHEL(Red Hat Enterprise Linux) by Redhat
+
+    Centos by CentOS
+
+    arch Linux
+
+    OpenSuse
+
+    Linux mint
+
+    Gentoo
+
+    Slack Ware
+
+    Alpine linux (It is light weight)
+
+    Kali Linux ( For penetration testing)
+
+
+
+
+
+Get CentOS from aws cloud and get centos vm or use the vagrant ubuntu
+
+
+
