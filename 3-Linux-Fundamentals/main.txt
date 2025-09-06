@@ -1,0 +1,193 @@
+ls -l mytext.html
+
+command options argument   # arguments makes you more specific
+
+man ls
+
+File Ownership
+chgrp and chown
+
+sudo chown root:root  hlep.txt
+sudo chgrp root dir
+
+
+Access Control List:
+    Suppose you create a file, and you want others to only read it, you can add r permission for others, however
+    this will be for all the others, suppose you want to make it fine grain, then we would use access control list
+
+
+    setfacl -m u:user:rwx /path/to/file
+
+
+echo "shanana" | tee text.txt  # shows it and redirect
+
+echo "shanana" | tee -a text.txt  # shows it and append
+
+ls; ifconfig; pwd  #multi commands
+
+
+less text.txt
+more text.txt
+
+
+cut # allows you to slice the file
+
+sed # it is used to replace word
+sed 's/oldword/newword/g' filename
+
+
+useradd name
+
+id name
+
+userdel name
+
+userdel -r name  # this will delete the home directory
+
+
+
+sudo groupadd devops
+
+sudo useradd -m -s /bin/bash -g devops shina
+
+-m : creates home directory
+-s : the shell
+-g : the group
+
+
+sudo passwd shina # to set password
+
+sudo usermod -aG devops shina # adds  shina to devops group
+
+see all the users in /etc/passwd
+see all the groups in /etc/group
+see all the passwords /etc/shadow
+
+To make a a sudoer
+
+sudo usermod -aG sudo shina
+
+sudo usermod -aG wheel shina  # same as sudo group
+
+
+# the password behavior can be modify if edit the file
+/etc.login.def
+
+last | awk '{print $1}' | sort | uniq
+last: user that have been logged in
+awk: get the first column
+sort: sort the users
+uniq: take out duplicate
+
+
+users # shows all that is logged in
+
+wall # send messages to all logged in users
+
+write user_name # this will send message to the user_name
+
+
+Special Permissions:
+setuid and setguid is to run a command on behalf of another user
+passwd
+
+chmod u+s file # if the owner sets this it would only run with the owners permission
+chmod u-s
+-rwsr-xr-x 1 alice devs 12345 Jul 20 12:00 myprog
+
+
+chmod g+s  # group
+chmod g-s
+-rwr-xsr-x 1 alice devs 12345 Jul 20 12:00 myprog
+
+Sticky ensures the own of the file can only delete it
+
+chmod 1777 mydir   # the 1 means sticky bit
+chmod +t mydir
+drwxrwxrwt  10 root root 4096 Sep 5 12:00 /tmp
+
+
+
+Processes and Jobs:
+
+Application:
+    These are running on your linux, like kubelet, nginx
+
+Script:
+    List of commands you want the linux system to execute
+
+Process:
+    This is an independent excution of program running in memory with its own resources, when you run an application a
+    process is started
+
+Thread:
+    It is a light weight unit of execution when a process, it shares the resources with other threads
+
+Daemon:
+    Keeps running in a background and its keeps listen
+
+
+Job:
+    Is a scheduled running of application
+
+
+
+
+
+
+
+Systemctl
+To start,stop, restart, enable, disable a service
+
+systemctl disable kubelet.service
+
+systemctl list-units # shows all the services
+
+service runs in background, they come up automatically they are different from process
+
+nproc # see the number of cpu
+
+PS
+
+ps aux # to see all the processes running
+ps -ef
+ps -u ubuntu
+
+TOP
+top # shows you the process in real time
+
+KILL
+
+kill pid
+kill -9 pid
+kill -3 pid
+kill -STOP pid  #
+kill -CONT pid
+
+nohup sleep 75 # runs in the background no matter what
+
+nice -n 10 mycommand # start a command with niceness of 10
+renice -n 5 -p 12345 # assign niceness to a programm
+
+
+
+sleep 100  and type ctrl z
+
+bg  #background
+fg  #foreground
+
+
+System Monitoring:
+top or htop  # to see the process consuming
+
+df -h # to see the disk usage
+
+sudo du -sh /* 2>/dev/null | sort -rh | head -n 10 # sort from largest
+
+dmesg   #the errors in the system
+
+iostat -h
+
+free -m  # for ram
+
+/var/log
