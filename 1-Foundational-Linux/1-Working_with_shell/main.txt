@@ -1,0 +1,64 @@
+Linux shell allows users to be able to interact with the OS, using a text based interface. While most computers uses
+GUI, this is a screen that you can input commands and you get response from the OS.
+
+When you login into the shell, it takes you directly to the user home directory.
+
+Command Types
+1.Internal or Built-in Commands
+They come bundled with the shell or the OS. i.e echo, pwd
+
+2. External Commands
+These are binary program, installed by the distro or the user
+
+
+Some commands new commands
+pushd
+    This add the directory to the stack, instead of using cd to move to the next directory, when you use pushd, it adds
+    the directory to the stack
+
+popd
+    This returns you to the previous list on the stack of the directories, very similar to cd -
+
+
+cat > hello.txt
+    Ths allows you to add text, when done, control + d, to exit the text file terminal
+
+
+
+Using Help
+1. whatis: It helps display one-line manual page descriptions
+    user@polom-dev-bastion-vm:~$ whatis date
+    date (1)             - print or set the system date and time
+
+2. man: It gives the details and use cases of the command
+    man date
+
+3. date --help
+    The quick glance on how to use the command
+
+4. apropos date
+    It will search the man page
+
+
+
+Types of Shell
+1. Bourne shell
+2. Bourne Again shell
+3. zsh
+
+
+You can see the shell
+echo $SHELL
+
+env
+To see all environment variable
+
+export OFFICE=Waterloo
+
+vim ~/.bashrc    or use echo "export OFFICE=Waterloo" >> ~/.bashrc
+
+source ~/.bashrc
+
+chsh
+
+
