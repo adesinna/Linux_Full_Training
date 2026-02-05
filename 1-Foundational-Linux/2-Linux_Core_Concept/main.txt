@@ -1,0 +1,163 @@
+What is the linux kernel ?
+This is the major interface between a computer hardware and its processes. It manages the hardware connected to the
+operating system so that the processes can use them.
+
+Think of it as the invisible middleman. Your software (like Chrome or kubectl) doesn't know how to talk
+to your RAM or your CPU directly; it asks the Kernel to do it on its behalf.
+
+The 4 Main Jobs of the Kernel
+
+1.Memory Management: It keeps track of how much memory is used and which processes are using it.
+
+2.Process Management: It decides which process gets to use the CPU, for how long, and at what priority.
+
+3.Device Drivers: It acts as the bridge between the hardware (keyboard, mouse, disk drive) and the software.
+
+4.System Calls: It provides a secure way for programs to ask the hardware to do something (like "write this data to the disk").
+MPDS
+
+An Operating System is a collection of software that manages computer hardware and provides common services
+for computer programs. While the kernel is the "major interface" you mentioned, the OS is the complete package
+that makes the computer usable for a human
+
+If the Kernel is the engine of a car, the Operating System (OS) is the entire vehicle—the seats, the steering wheel,
+the dashboard, and the GPS.
+
+user@polom-dev-bastion-vm:~$ uname -r   # this is how to see the kernel version
+6.1.0-40-cloud-amd64
+
+
+Understanding the "Great Divide" between Kernel Space and User Space is key.
+This separation is all about security and stability. It prevents a bug in a simple app (like a calculator)
+from crashing your entire computer.
+
+1. User Space
+This is where your everyday applications live. When you run kubectl, nano, or a web browser, they run here.
+
+Restricted Access: Applications here cannot touch the hardware directly. They can't just "grab" RAM or write to
+the disk whenever they want.
+
+Safety Net: If a program in user space crashes, it usually only affects that one program. Your computer stays running.
+
+Communication: To get anything done (like saving a file), the app must send a "System Call" to the Kernel.
+
+
+2. Kernel Space
+This is the "VIP lounge" of your computer. This is where the Kernel resides and executes its tasks.
+
+Full Access: The Kernel has unrestricted access to the CPU, RAM, and all hardware.
+
+High Risk: If something goes wrong in Kernel space (like a buggy driver), it results in a Kernel Panic
+(the Linux version of the Blue Screen of Death). The whole system stops.
+
+Privileged Mode: The CPU actually switches into a special "protected mode" to run code here.
+
+
+Working With Linux Hardware
+System Call: You (User Space) tell the waiter, "I’d like the steak, please." You are requesting a resource.
+
+Event: The waiter (Kernel) comes by and says, "The kitchen is closing in 10 minutes."
+They are notifying you of a condition, and it's up to you how to react.
+
+Suppose a hard disk is connected to the OS, the device driver the kernel space detects and send an event to the user space
+daemon called udev, udev is responsible for created the /dev/sdb1 for the hard disk.
+
+
+dmesg
+This is used to display messages from the kernel(kernel ring buffer) and events from the kernel
+dmesg | grep -i usb
+
+
+udevadm
+This is use to manage devices connected
+
+
+lscpi
+This is used to display all pci devices connected to the pci slot, like ethernet interface
+
+lsblk
+This list the block device that is connected to the device.
+
+lscpu
+This displays  information about the CPU architecture
+
+lsmem  or free -m
+To display memory
+
+lshw
+It displays all  hardware
+
+The Boot Process
+
+Here is the 4-step sequence:
+
+1. BIOS/UEFI (The Hardware Check)
+The moment you hit the power button, the CPU wakes up and looks for a tiny piece of software stored on the motherboard's flash memory.
+
+POST (Power-On Self-Test): It checks if your RAM, Keyboard, and SSD are alive.
+
+Hand-off: It looks for a "Boot Loader" on your disk (like a tiny signpost saying "The OS is this way").
+
+2. Bootloader (GRUB)
+The most common bootloader for Linux is GRUB.
+
+The Selector: This is that menu you sometimes see where you can choose between "Ubuntu" or "Advanced Options."
+
+Loading the Kernel: Its main job is to copy the Linux Kernel from the disk into the RAM so it can start running.
+
+3. Kernel Initialization
+Now the Kernel takes control. This is the part you see when you run sudo dmesg | head -n 50.
+
+Hardware Probe: The Kernel scans the hardware again (more deeply than the BIOS) and loads the necessary drivers.
+
+Root Filesystem: It mounts the disk (the / directory) so it can reach your files.
+
+The Final Spark: Once the Kernel is happy, it starts the very first User Space process: PID 1.
+
+4. systemd (The Manager)
+In almost all modern Linux systems (like your Ubuntu VM), PID 1 is systemd.
+
+The Architect: systemd is the "parent" of everything else. It starts your networking, your login screen (GUI),
+and background services like SSH.
+
+Target Reached: Once it finishes loading everything, it presents you with the login prompt.
+
+
+
+
+Run Levels
+
+Old Runlevel,New systemd Target,What it means
+1,rescue.target,Single-user mode (for fixing things).
+3,multi-user.target,Non-graphical (Command line only).
+5,graphical.target,Desktop environment (GNOME/KDE).
+6,reboot.target,The system is shutting down to restart.
+
+
+sudo systemctl get-default
+
+systemctl set-default multi-user.target
+
+
+Types of files in linux
+
+Character,    File Type,     Description
+-,           Regular File,  "Data, scripts, or binaries."
+d,           Directory,      A container for other files.
+l,              Link,        A pointer to another file.
+c,         Character Device, Unbuffered hardware access (keyboard).
+b,          Block Device,    Buffered hardware access (HDD/SSD).
+s,          Local Socket,    Networking/IPC communication.
+p,           Named Pipe,     Sequential process communication.
+
+
+Directory,Purpose
+/,The Root. The starting point of the entire file system.
+/bin,"Binaries. Essential command binaries (like ls, cp, bash)."
+/etc,Editable Text Configuration. Contains system-wide configuration files.
+/home,"User Data. Personal folders for users (e.g., /home/username)."
+/root,Superuser Home. The private home directory for the root user.
+/dev,"Device Files. Hardware representations (hard drives, terminals)."
+/var,"Variable Files. Data that changes frequently, like logs and spool files."
+/tmp,Temporary. Files deleted upon reboot (usually).
+/usr,User System Resources. The largest directory; contains shared libraries and programs.
