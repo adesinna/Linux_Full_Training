@@ -161,3 +161,16 @@ Directory,Purpose
 /var,"Variable Files. Data that changes frequently, like logs and spool files."
 /tmp,Temporary. Files deleted upon reboot (usually).
 /usr,User System Resources. The largest directory; contains shared libraries and programs.
+
+
+du -sh
+This is used to check the size of a file in mb
+
+
+
+Format,    Command to Compress,   Command to Extract,    Best Use Case
+.zip,         zip,         unzip,     Cross-platform (Windows/Mac)
+.tar.gz,   tar -cvzf,   tar -xvzf,    Standard Linux backups/scripts
+.tar.xz,   tar -cvJf,     tar -xvJf,   Maximum space saving
+
+tar -cvzf /home/bob/python.tar.gz /home/bob/reptile/snake/python     # compress adnd archive the python director as python.tar.gz
