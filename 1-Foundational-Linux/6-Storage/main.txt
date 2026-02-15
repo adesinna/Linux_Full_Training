@@ -1,0 +1,52 @@
+To see the disks
+lsblk
+
+lsblk -dn | wc -l  # count number of disk
+
+How to mount ext4 file system
+
+
+mkfs.ext4 /dev/sdb1
+
+mkdir /mnt/ext4
+
+mount /dev/sdb1 /mnt/ext4
+
+# to make available after system reboot
+
+vim /etc/fstab
+
+echo "/dev"
+
+
+1. DAS: Direct Attached Storage
+This is the simplest form of storage. It is physically connected to a single computer or server, usually via a USB cable
+or a SATA/SAS drive inside the machine.
+
+Analogy: A personal backpack. Only you can access it, and you have to be physically holding it to get your stuff.
+
+Pros: Fast, inexpensive, and incredibly easy to set up.
+
+Cons: Not shareable. If you want someone else to see the data, you have to move the whole drive or set up a software share.
+
+2. NAS: Network Attached Storage
+NAS is a dedicated device with its own IP address that sits on your local network (LAN). It operates at the file level,
+meaning it manages files and folders just like your computer’s OS does.
+
+
+Analogy: A shared filing cabinet in an office hallway. Anyone with permission can walk up and grab a folder.
+
+Pros: Great for collaboration, easy file sharing, and provides a central location for backups.
+
+Cons: Can be slower than DAS because data has to travel over the Ethernet network, which can get congested.
+
+3. SAN: Storage Area Network
+A SAN is a high-speed, specialized network that connects servers to "pools" of storage. Unlike NAS, it operates at the
+block level. To a server, a SAN doesn't look like a network drive; it looks like a local physical hard drive.
+
+Analogy: A city-sized warehouse. It’s complex and requires specialized transport (Fibre Channel), but it can handle
+massive amounts of data with extreme efficiency.
+
+Pros: High performance, highly scalable, and no single point of failure.
+
+Cons: Very expensive and requires a specialized IT team to manage.
