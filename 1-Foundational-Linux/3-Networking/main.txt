@@ -1,0 +1,71 @@
+DNS
+
+bob@caleston-lp10:~$ cat /etc/nsswitch.conf
+# /etc/nsswitch.conf
+#
+# Example configuration of GNU Name Service Switch functionality.
+# If you have the `glibc-doc-reference' and `info' packages installed, try:
+# `info libc "Name Service Switch"' for information about this file.
+
+passwd:         compat systemd
+group:          compat systemd
+shadow:         compat
+gshadow:        files
+
+hosts:          files dns  # search hosts first, then dns
+networks:       files
+
+protocols:      db files
+services:       db files
+ethers:         db files
+rpc:            db files
+
+netgroup:       nis
+
+bob@caleston-lp10:~$ cat /etc/hosts
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.16.238.10   devapp01
+172.16.239.10   devdb01
+172.16.238.187  caleston-lp10
+172.16.239.187  caleston-lp10
+172.17.0.4      caleston-lp10
+bob@caleston-lp10:~$ cat /etc/resolv.conf
+search caleston.ca
+nameserver 8.8.8.8
+options ndots:5
+bob@caleston-lp10:~$
+
+
+
+Network Basics
+Suppose we have two computers and, they need to talk to each other, A and B can be connected to the same network, however
+how ?
+There is an interface on each computer and they are connected physically or virtually to a switch that would now create
+a network.
+
+Now suppose we have switch A and switch B, creating two different network, to let them be able to talk to each other
+we use a router. Since the route is just a device, you must configure a nat gateway to point to the router.
+
+Cannot reach a site on your host?
+
+1. ip link
+This will check whether the interface is up
+
+2. Let us check whether is it resolving
+    nslookup hostname
+
+3. ping server
+    ping hostname
+
+4. traceroute hostname
+
+5. netstat -tulpn or ss -tupln
+On the server
+
+6. ip link
+on the server

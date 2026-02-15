@@ -1,0 +1,61 @@
+In linux, many user connects to the linux system, we have root users, regular users, service account and system accounts.
+
+id user
+
+who
+The who command shows you exactly who is logged into the computer at this very second.
+
+last
+The last command looks backward in time. It shows a list of all successful logins and logouts that have happened recently.
+
+
+/etc/passwd
+This contains basic information about the users
+
+/etc/shadow
+This contains users passwords, these are encrypted
+
+/etc/groups
+This contains information about the user groups
+
+
+# How to create user
+user@polom-dev-bastion-vm:~$ whoami
+user
+user@polom-dev-bastion-vm:~$ sudo -i
+root@polom-dev-bastion-vm:~# useradd shina
+root@polom-dev-bastion-vm:~# passwd shina
+New password:
+Retype new password:
+passwd: password updated successfully
+
+sudo groupadd -g 1010 john
+
+sudo useradd -u 1010 -g john -m -s /bin/sh john     # -m gives it the directory /home/john
+
+
+
+ssh-keygen -t rsa
+
+ssh-copy-id bob@devapp01
+
+scp -pr /home/bob/caleston-code.tar.gz devapp01:/home/bob  # -p preserves ownership and permission
+
+
+IPTABLES
+
+If there is no firewall, everything can talk to each other on the network, with iptables you can create the rules at
+which the input, output or forward.
+
+
+Internet
+   ↓
+AWS Security Group (cloud firewall)
+   ↓
+VPC networking
+   ↓
+Your EC2 instance
+   ↓
+iptables / UFW / firewalld (OS firewall)
+   ↓
+Your app
