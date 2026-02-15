@@ -1,0 +1,41 @@
+systemctl status docker
+systemctl restart nginx
+systemctl enable myapp
+
+
+journalctl -u docker
+journalctl -f
+journalctl --since "10 minutes ago"
+
+user@polom-dev-bastion-vm:/etc/systemd/system$ ls
+NetworkManager.service.wants           dbus-org.freedesktop.resolve1.service   getty.target.wants           network.service.wants     sshd.service          syslog.service
+basic.target.wants                     dbus-org.freedesktop.timesync1.service  multi-user.target.wants      networking.service.wants  sshd.service.wants    systemd-networkd.service.wants
+dbus-org.freedesktop.network1.service  default.target.wants                    network-online.target.wants  sockets.target.wants      sysinit.target.wants  timers.target.wants
+
+
+user@polom-dev-bastion-vm:/etc/systemd/system$ cat sshd.service
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target auditd.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
+
+
+systemctl daemon-reload # after make configuration on the service file
