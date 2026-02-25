@@ -60,7 +60,7 @@ This will check whether the interface is up
     nslookup hostname
 
 3. ping server
-    ping hostname
+   ping hostname
 
 4. traceroute hostname
 

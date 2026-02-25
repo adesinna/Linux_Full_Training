@@ -34,7 +34,9 @@ sudo groupadd -g 1010 john
 sudo useradd -u 1010 -g john -m -s /bin/sh john     # -m gives it the directory /home/john
 
 
+chown jane family.txt
 
+chgrp john family.txt
 ssh-keygen -t rsa
 
 ssh-copy-id bob@devapp01

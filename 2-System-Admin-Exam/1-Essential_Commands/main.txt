@@ -1,0 +1,261 @@
+1. Log in to Linux
+They are different ways you can log in into your linux computer. A console is a black screen with allows you to interact
+with the computer.
+
+- Local text-mode console
+
+- Local graphical-mode console
+
+- Remote text-mode login
+
+- Remote graphical-mode login
+
+
+2. Read and Use system Documentation
+- help
+This will help you to see quick options you can use with the command line.
+ls --help
+
+
+- man
+This is a more detailed than the help.
+
+man 1 printf
+man 3 prinf
+man ls
+
+- apropos
+If you do not know the name of the command, you use apropos.
+apropos -s  1,8 direct   # to search commands associated with directory and how to use them
+
+use mandb before using apropos, it helps update the apropos db
+
+sudo mandb
+
+
+
+
+3. Hard Links and Soft Links
+
+Inode: An inode is a data structure on a filesystem that stores all the information about a file except for its actual
+name and the actual data inside the file.
+
+- Hard Link
+Suppose people are using the linux system, and A has a picture of the dept annual conference, and decides to share it
+with all people using the linux system, instead of copying this picture to every user's home directory, you can create an
+hard link
+
+ln /path/target  /path/hardlink
+
+The hard link is like any other file, but instead of having its own inode, it is pointing to the inode of the original
+file. If anyone deletes his or her link, nothing happens to the file, even if the original file is deleted, the only
+time the file is deleted is when there is no other hardlink pointing to that file.
+
+However, there are drawbacks to using hard link
+i. They can only be done to files
+ii. They can only on the same filesystem, i.e if you have an external drive, you can not hardlink a file to your computer
+file system.
+iii. Make sure there is the require permission on the path where your are making the hardli
+
+- Soft Links
+Softlinks are similar to shortcuts,  it is a file that points to another file.
+
+ln -s /path/target  /path/hardlink
+
+When you delete the file, or change the path, the softlink breaks. It is best you use relative path for the soft link.
+
+
+
+4. File Permission
+ -rw-r--r-- 1 user user   10 Dec 23 23:42 shina.txt
+# How to create user
+user@polom-dev-bastion-vm:~$ whoami
+user
+user@polom-dev-bastion-vm:~$ sudo -i
+root@polom-dev-bastion-vm:~# useradd shina
+root@polom-dev-bastion-vm:~# passwd shina
+New password:
+Retype new password:
+passwd: password updated successfully
+
+sudo groupadd -g 1010 john
+
+sudo useradd -u 1010 -g john -m -s /bin/sh john     # -m gives it the directory /home/john
+
+
+sudo chown jane family.txt
+
+sudo chgrp john family.txt
+
+sudo chown jane:john family.txt
+
+
+chmod ugo +/- rwx filename
+
+or use
+4 - r
+2 - w
+1 - x
+
+
+
+5. SUID, SGID and Sticky Bit
+
+SUID (Set User ID)
+This is a special permission that allows users to run an executable with the permissions of the executable's owner.
+It is like giving someone your food pass to get him or her food at the lobby, even though they don’t have the pass themselves.
+
+What it does: When set on an executable file, the program runs with the permissions of the file owner, not the user who ran it.
+
+Common example: passwd command has SUID root, so any user can change their password even though /etc/shadow is root-owned.
+
+ls -l
+
+-rw-r--r-- 1 user user   31 Feb  4 18:02 shina.txt
+
+chmod 4644 shina.txt
+-rwSr--r-- 1 user user   31 Feb  4 18:02 shina.txt # this means SUID is set but no x permission
+
+chmod 4744 shina.txt
+-rwsr--r-- 1 user user   31 Feb  4 18:02 shina.txt # this means SUID is set but there is x permission
+
+
+SGID (Set Group ID)
+
+What it does:
+
+Files: Runs with the permissions of the file’s group.
+
+Directories: Any new files created inside inherit the directory’s group, not the user’s primary group.
+
+ls -l
+
+-rw-r--r-- 1 user user   31 Feb  4 18:02 shina.txt
+
+chmod 2644 shina.txt
+-rw-r--r-- 1 user user   31 Feb  4 18:02 shina.txt # this means SGID is set but no x permission
+
+chmod 2744 shina.txt
+-rwxr-Sr-- 1 user user   31 Feb  4 18:02 shina.txt # this means SGID is set but there is x permission
+
+chmod 2714 shina.txt
+-rwx--sr-- 1 user user   31 Feb  4 18:02 shina.txt
+
+
+Stickybit
+This protects the file from being deleted, only owner and root
+
+chmod 1714 shina.txt
+-rwx--xr-T 1 user user   31 Feb  4 18:02 shina.txt #no x permission on others
+
+
+chmod 1715 shina.txt
+-rwx--xr-t 1 user user   31 Feb  4 18:02 shina.txt # x permission on others
+
+4- suid
+2- sgid
+1- stickybit
+
+
+
+6. Searching for files
+
+find /path/to/find -name '*.jpg'
+
+find /path/to/find -iname "f*"
+
+find /path/to/find -mmin  10   # 10mins ago with +/- 29sec
+
+| Command     | Meaning                  | Rough time window  |
+| ----------- | ------------------------ | ------------------ |
+| `-mmin 10`  | ~10 minutes ago          | ~11:49:31–11:50:29 |
+| `-mmin -10` | less than 10 minutes ago | ~11:50:31–12:00:00 |
+| `-mmin +10` | more than 10 minutes ago | before ~11:49:30   |
+
+find -size 512k
+find -size +/- 512k
+
+find /path/ -size 512k -iname s* # this implies AND
+
+find /path/ -size 512k -o -iname s* # -o means OR
+
+find /path/  -not -size 512k # means NOT or use \!
+
+find /path/ -perm 664  # Exactly this permission
+
+find /path/ -perm -664 # At least this permission
+
+find /path/ -perm /664 # This will show if any of the permission is there! example if user have 4 or 2, it will show
+
+find /path/ -perm 600 file # only the owners can read and write
+
+find /path/ -perm 100  file # only the owners can at least execute, the rest can be anything
+
+find /path/ -not -perm -o=r  # other cannot read
+
+find /var/log/ -perm -020 -not -perm /006      #A
+
+find /var/log/ -perm -g+w ! -perm -o+r ! -perm -o+w #B
+
+A and B are the same
+
+
+
+the group can at least write and others must not read or write
+
+
+
+
+
+
+
+
+7. File Manipulation
+cat file   # if the file is short
+
+more file
+
+less file
+
+tail -n 20 file
+
+head -n 20 file
+
+sed -i 's/old_text/new_text/g' file_name  # it replaces text
+
+sed -i 's/disabled/enabled/gi' /home/bob/values.conf   # gi means global case sensitive
+
+sed -i '500,2000s/enabled/disabled/g' values.conf  # line 500 to 2000
+
+sed -i 's~#%$2jh//238720//31223~$2//23872031223~g' /home/bob/data.txt  # special character use ~ to separate
+cut -d ' ' -f 1 file_name
+
+user@polom-dev-bastion-vm:~$ cut -d ' ' -f 11 ios_dummy.log | tail -n 10
+latency=91ms
+latency=41ms
+latency=167ms
+latency=226ms
+latency=265ms
+latency=213ms
+latency=189ms
+latency=112ms
+latency=226ms
+latency=262ms
+
+
+uniq file_name # shows the unique
+
+sort file_name # this will sort the file_name
+
+diff -y file1 file2
+
+sudo grep -ir --color 'password' /file/path
+sudo grep -v --color 'password' /file/path # not specific
+
+
+
+
+
+
+
+

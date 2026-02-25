@@ -1,0 +1,12 @@
+What is an Operating System ?
+This is consisting of the central software managing a computer’s resources and, all the accompanying standard
+software tools, such as command-line interpreters, graphical user interfaces, file utilities, and editors.
+
+Kernel
+This the central software that manages and allocates computer resources (CPU, and RAM and Devices).
+
+Task performed by the kernel
+1. Process Management
+    The kernel manage process, how they share the cpu, it creates and terminates these process too
+
+2. Memory

@@ -1,0 +1,131 @@
+This is used for searching file, with the help of an operator.
+
+ less /etc/login.defs
+
+ grep '^#' /etc/login.defs
+
+| Pattern | Meaning                    | Example Match |      |      |
+| ------- | -------------------------- | ------------- | ---- | ---- |
+| `.`     | Any single character       | `a`, `1`, `@` |      |      |
+| `\d`    | Any digit                  | `0–9`         |      |      |
+| `\w`    | Letter, number, underscore | `hello_123`   |      |      |
+| `\s`    | Whitespace                 | space, tab    |      |      |
+| `^`     | Start of string            | `^Hello`      |      |      |
+| `$`     | End of string              | `world$`      |      |      |
+| `*`     | 0 or more                  | `a*`          |      |      |
+| `+`     | 1 or more                  | `a+`          |      |      |
+| `?`     | 0 or 1                     | `colou?r`     |      |      |
+| `{n}`   | Exactly n times            | `\d{4}`       |      |      |
+| `[abc]` | a or b or c                | `a`           |      |      |
+| `[^a]`  | Not a                      | `b`, `c`      |      |      |
+| ` |      | `                         | OR           | `cat  dog`  |
+| `()`    | Group                      | `(abc)+`      |      |      |
+
+
+1. The ^ operator
+This is used to search lines that begins with the word or character following the ^ operator.
+
+sudo grep -ir '^sunday' /file/path
+
+This will search for lines that begins with sunday
+
+sudo grep -v  '^#' /etc/login.defs
+
+This will search lines that do not begin with the #
+
+
+2. The $ operator
+This is used to find the word or character that is the last on the line
+
+sudo grep -w '7$' /etc/login.defs
+
+This will match only the line that ends with 7
+
+sudo grep  '7$' /etc/login.defs
+ERASECHAR	0177
+PASS_WARN_AGE	7
+
+# this -w brings the exact match
+sudo grep -w '7$' /etc/login.defs
+PASS_WARN_AGE	7
+
+
+3. The . operator
+This allows you to match one character in between.
+
+grep -r 'c.t' /etc/
+
+finds cxt, where x can be any char
+
+grep -r 'c..t' /etc/
+
+
+4. The * operator
+This operator is used as a wildcard
+
+sudo grep -ir 'let*'
+The only constant here is l and e, t can appear 0 or more
+
+le
+let
+lettt
+letttttttt
+
+So the * only affects the t.
+
+grep -ir '/.*/' /path/
+any 0, 1 or more character, since it will only affect ., which just means anyone character
+
+
+
+NOTE:
+Escaping  any special character
+
+sudo grep -r '\.'
+
+5. The + operator
+This is used to find the previous char at least once or more, unlike the * that would also find the zero instance.
+
+sudo grep -r '0+' /etc/
+This will look for 0+ instead of 0, 00, or 000....
+
+To use this, we need to escape it, however how do we know or keep tabs of the one we want to escape. Now that is where
+we use the -E options
+
+sudo grep -Er '0+' /etc/  or sudo egrep -r '0+'
+
+6. The {a,b} operator
+This will look for at least a and max b, if nothing is filled it will assume infinite
+
+sudo egrep -r '0{1,3}' /etc/
+
+sudo egrep -r '0{3}' /etc/  # exactly 3 0s
+
+7. The ? operator
+
+This allows the previous element or character appear once or 0 time
+
+sudo egrep -r 'disabled?' /etc
+
+allows d, to be there or not, so disable or disables or disabled works
+
+8. The | operator
+This is the or operator
+
+sudo egrep -ir 'enabled|disabled' /etc
+
+9. The [] operator
+This is the range operator
+sudo egrep -ir 'c[au]t', it would find cat or cut or caut
+we have [0-9] and [a-z], they are called ranges, while [caugdbe] are called set
+
+Examples
+
+grep -Er '/dev/(([a-z]|[A-Z])*[0-9]?)*' /etc/
+
+10. [:]
+Suppose we want to find https but not https:
+
+grep -Er 'https[^:]' /etc/        # do not show the ones that has : after s. i.e begins with : after s
+
+grep -Er 'http[^s:]' /etc/    # same but starts with s:
